@@ -14,22 +14,20 @@ navigation:
   - title: Intro
     url: cluster_training/intro
   - title: LSSC0
-    url: cluster_training/lssc0_onboard.md
+    url: cluster_training/lssc0_onboard
   - title: Modules
-    url: cluster_training/modules.md
+    url: cluster_training/modules
   - title: Priority
-    url: cluster_training/priority.md
+    url: cluster_training/priority
   - title: Q Commands
-    url: cluster_training/q_commands.md
+    url: cluster_training/q_commands
   - title: Rules
-    url: cluster_training/rules.md
+    url: cluster_training/rules
   - title: S Commands
-    url: cluster_training/s_commands.md
+    url: cluster_training/s_commands
   - title: Scheduler
-    url: cluster_training/scheduler.md
+    url: cluster_training/scheduler
   - title: Transfer
-    url: cluster_training/transfer.md
-  - title: Test
-    url: cluster_training/intro
+    url: cluster_training/transfer
 
 
