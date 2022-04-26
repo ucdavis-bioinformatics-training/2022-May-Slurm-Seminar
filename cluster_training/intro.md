@@ -1,8 +1,3 @@
----
-title:
-- Introduction to the HPC Core Facility
----
-
 # Introduction
 
 ![High Performance Computing at UC Davis](images/HPC-unit-signature.png)
