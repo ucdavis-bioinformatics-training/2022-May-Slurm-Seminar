@@ -16,25 +16,25 @@ navigation:
 
   - title: LSSC0
     url: cluster_training/lssc0_onboard.md
-  
+
   - title: Modules
     url: cluster_training/modules.md
-  
+ 
   - title: Priority
     url: cluster_training/priority.md
-  
+ 
   - title: Q Commands
     url: cluster_training/q_commands.md
-  
+ 
   - title: Rules
     url: cluster_training/rules.md
-  
+ 
   - title: S Commands
     url: cluster_training/s_commands.md
-  
+ 
   - title: Scheduler
     url: cluster_training/scheduler.md
-  
+ 
   - title: Transfer
     url: cluster_training/transfer.md
 
