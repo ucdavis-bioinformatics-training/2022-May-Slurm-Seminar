@@ -12,7 +12,7 @@ navigation:
 
   - heading: Slurm
   - title: Intro
-    url: cluster_training/intro.md
+    url: cluster_training/intro
 
   - title: LSSC0
     url: cluster_training/lssc0_onboard.md
