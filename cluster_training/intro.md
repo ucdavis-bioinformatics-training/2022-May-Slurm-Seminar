@@ -7,7 +7,7 @@
 ## What this talk is
 
 * Brief overview of the resources offered by the High Performance Computing
-  Core Facility
+  Core Facility and the Bioinformatics Core
 
 * How to get access
 
@@ -26,12 +26,16 @@
 
 # Introduction
 
-## Who am I?
+## Who are we?
 
 * Mike Lewis
 * Systems Achitect, HPC Core Facility (previously of the Genome Center)
 * 25 years of experience managing UNIX at scale, 20 years of HPC cluster
   design and administration.
+
+* Nikhil Joshi
+* Bioinformatics Programmer/Analyst, UC Davis Bioinformatics Core
+* 30+ years programming experience, 15+ years at the Bioinformatics Core, software installer for Genome Center cluster.
 
 # Introduction
 
@@ -48,11 +52,13 @@ or 1024 chickens?
 
 > - A collection of machines that work together
 
+
 ## Why use a cluster?
 
 > - Chickens are cheaper than oxen
 > - There is a limit on the size of a single ox
 > - ... but try getting 1024 chickens to move in the same direction
+
 
 # Cluster Terminology
 
@@ -84,9 +90,3 @@ If RAM is exceeded, virtual memory will be used.  Using disk instead of RAM.
 * **Thrash**:
 Competing processes swapping at the same time.
 
-# Anatomy of a cluster
-
-![](images/cluster_diagram.png)
-
-* Head/login node connects to the Internet and to the cluster interconnect
-* Nodes connect only to the interconnect

@@ -13,14 +13,16 @@ navigation:
   - heading: Slurm
   - title: Intro
     url: cluster_training/intro
+  - title: Cluster
+    url: cluster_training/cluster
   - title: LSSC0
     url: cluster_training/lssc0_onboard
   - title: Modules
     url: cluster_training/modules
   - title: Priority
     url: cluster_training/priority
-  - title: Q Commands
-    url: cluster_training/q_commands
+  # - title: Q Commands
+  #   url: cluster_training/q_commands
   - title: Rules
     url: cluster_training/rules
   - title: S Commands
