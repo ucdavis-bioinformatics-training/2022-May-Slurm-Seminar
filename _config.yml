@@ -12,7 +12,7 @@ navigation:
   - title: Cluster
     url: cluster_training/cluster
   - title: Onboard
-    url: cluster_training/hpc_core_onboard.md
+    url: cluster_training/hpc_core_onboard
   - title: Modules
     url: cluster_training/modules
   # - title: Priority
@@ -27,5 +27,6 @@ navigation:
   #   url: cluster_training/transfer
   - title: Rules
     url: cluster_training/rules
-
+  - title: Contact
+    url: cluster_training/contact
 
