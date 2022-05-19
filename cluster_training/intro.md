@@ -39,12 +39,12 @@ or 1024 chickens?
 
 ## What is a cluster?
 
-> - A collection of machines that work together
+- A collection of machines that work together
 
 
 ## Why use a cluster?
 
-> - Chickens are cheaper than oxen
-> - There is a limit on the size of a single ox
-> - ... but try getting 1024 chickens to move in the same direction
+- Chickens are cheaper than oxen
+- There is a limit on the size of a single ox
+- ... but try getting 1024 chickens to move in the same direction
 
