@@ -68,8 +68,8 @@ This command is requesting a compute node with a time limit of 30 minutes (-t), 
 <div class="output">srun: job 29390113 queued and waiting for resources
 srun: job 29390113 has been allocated resources
 groups: cannot find name for group ID 2020
-bash: /home/msettles/.bashrc: Permission denied
-msettles@drove-13:~$
+bash: /home/joshi/.bashrc: Permission denied
+joshi@drove-13:~$
 </div>
 
 You safely ignore the working and error. Notice that we are no longer on the head node, but are now on a compute node.
