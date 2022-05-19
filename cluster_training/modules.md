@@ -68,7 +68,7 @@ Currently Loaded Modulefiles:
  1) slurm/latest   2) htstream/1.0.0
 </div>
 
-_'module unload'_ will unload the module(s) you specify.
+'module unload' will unload the module(s) you specify.
 
     module load star
     module load samtools
