@@ -1,6 +1,6 @@
 # Running jobs on the cluster and using modules
 
-**1\.** In the UC Davis Bioinformatics Core we have a large computational cluster (named lssc0) that we use for our analyses. The job scheduling system we use on this cluster is called [Slurm](https://slurm.schedmd.com/). In this section, we will go through examples of the commands we will be using to interact with the cluster.
+The HPC Core (High Performance Computing Core) runs many clusters on the UC Davis campus. The job scheduling system we use on these clusters is called [Slurm](https://slurm.schedmd.com/). In this section, we will go through examples of the commands we will be using to interact with the cluster.
 
 First, what is a cluster?
 
@@ -8,29 +8,62 @@ First, what is a cluster?
 
 The basic architecture of a compute cluster consists of a "head node", which is the computer from which a user submits jobs to run, and "compute nodes", which are a large number of computers on which the jobs can be run. It is also possible to log into a compute node and run jobs directly from there. **In general you should never run a job directly on the head node!**
 
-### Lets login to the cluster
+## Cluster Terminology
 
-    ssh [username]@tadpole.genomecenter.ucdavis.edu
+* **Node**:
+An individual computer in the cluster
 
-where 'username' is replaced with your username. Press Enter.
+* **Login (or head) node**:
+The node users log in to and use to submit jobs.
+
+* **Scheduler (and queue)**:
+The entity that coordinates which jobs run at what time on which node(s)
+
+* **CPU Core**:
+A single processing unit
+
+* **Thread**:
+Processing unit that shares resources with other threads
+
+* **Interconnect**:
+The network connecting the nodes to each other and to the storage
+
+* **Core (memory)**:
+RAM
+
+* **Swap**:
+If RAM is exceeded, virtual memory will be used.  Using disk instead of RAM.
+(Much slower)
+
+* **Thrash**:
+Competing processes swapping at the same time.
+
+
+
+### Let's login to the cluster
+
+There are different ways to log into the cluster depending upon what kind of computer you are using. However, if you are using Mac, Linux, or Windows 10+ with Ubuntu installed, then you can use this command on the command-line in a terminal:
+
+    ssh <username>@<your login node>
+
+where '\<username\>' is replaced with your username and '\<your login node\>' is replaced with the fully qualified name of your login node (e.g. barbera.genomecenter.ucdavis.edu).
+
+
+### Let's look at a few slurm commands.
+
+The commands that you will most likely be using are srun, sbatch, squeue, scancel, and sacct. 
 
 ---
-**2\.** Now, let's look at a few slurm commands.
 
-The main commands we will be using are srun, sbatch, squeue, scancel, and sacct. First, log into the head node (tadpole.genomecenter.ucdavis.edu) and make a directory for yourself where you will be doing all your work.
-
-    mkdir /share/workshop/prereq_workshop/$USER
-    cd /share/workshop/prereq_workshop/$USER
-
-**2a\.** ['srun'](https://slurm.schedmd.com/srun.html) is used to run a job interactively. We most often use it to start an interactive session on a compute node. Take a look at the options to srun:
+['srun'](https://slurm.schedmd.com/srun.html) is used to run a job interactively. We most often use it to start an interactive session on a compute node. Take a look at the options to srun:
 
     srun --help
 
-Our cluster requires that you specify a time limit for your job. If your job exceeds these limits, then it will be killed. So try running the following to create an interactive session on a node:
+Different clusters have different requirements for when options need to be specified to run a job. For example, the LSSC0 cluster requires that you specify a time limit for your job. If your job exceeds these limits, then it will be killed. So we can run the following to create an interactive session on a node:
 
     srun -t 00:30:00 -c 1 -n 1 --mem 500 --partition production --account workshop  --pty /bin/bash
 
-This command is requesting a compute node with a time limit of 30 minutes (-t), one processor (-c), a max memory of 0.5Gb [500] (--mem), and then finally, specifying a shell to run in a terminal ("--pty" option). Run this command to get to a compute node when you want to run jobs on the command-line directly.
+This command is requesting a compute node with a time limit of 30 minutes (-t), one processor (-c), a max memory of 0.5Gb \[500\] \(\-\-mem\), and then finally, specifying a shell to run in a terminal ("\-\-pty" option). You should run this command to get to a compute node when you want to run jobs on the command-line directly.
 
 <div class="output">srun: job 29390113 queued and waiting for resources
 srun: job 29390113 has been allocated resources
@@ -39,14 +72,15 @@ bash: /home/msettles/.bashrc: Permission denied
 msettles@drove-13:~$
 </div>
 
-You safely ignore the working and error. Notice that we are no longer on tadpole, but are now on drove-13 in this example, one of our compute nodes.
+You safely ignore the working and error. Notice that we are no longer on the head node, but are now on a compute node.
 
 use Exit on the command line to exit the session
 
     exit
 
 ---
-**2b\.** ['sbatch'](https://slurm.schedmd.com/sbatch.html) is used to submit jobs to run on the cluster. Typically it is used to run many jobs via the scheduler non-interactively. Look at the options for sbatch:
+
+['sbatch'](https://slurm.schedmd.com/sbatch.html) is used to submit jobs to run on the cluster. Typically it is used to run many jobs via the scheduler non-interactively. Look at the options for sbatch:
 
     sbatch --help
 
