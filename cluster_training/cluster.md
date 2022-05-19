@@ -169,7 +169,7 @@ To view the same information for all jobs of a user (replace username with your 
 
 ## Array Jobs
 
-If you need to submit many jobs to the cluster at once, the best way to do that is to use **Job Arrays**. Here is an example of a real world job script using a Job Array:
+If you need to submit many jobs to the cluster at once, the best way to do that is to use **Job Arrays**. Here is an [example of a real world job script](../scripts/hts_pe_array.slurm) using a Job Array:
 
 <pre class="prettyprint"><code class="language-sh" style="background-color:333333">#!/bin/bash
 
@@ -237,7 +237,7 @@ You can use the same commands for an array job that you use for a single job. Yo
 
 ### Use this one simple trick
 
-One way to check if you properly wrote the script without having to run all of your jobs is to assign SLURM_ARRAY_TASK_ID a value of 1 explicitly and then run the script on the command line directly:
+One way to check if you properly wrote the script, without having to run all of your jobs, is to assign SLURM_ARRAY_TASK_ID a value of 1 explicitly and then run the script on the command line directly:
 
     export SLURM_ARRAY_TASK_ID=1
     bash hts_pe_array.slurm
