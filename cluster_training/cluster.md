@@ -115,18 +115,17 @@ echo Time taken: $elapsed
 </code></pre>
 
 
-The first line tells sbatch what scripting language (bash here) the rest of the file is in. Any line that begins with a "#" symbol is ignored by the bash interpreter, those lines that begin with "#SBATCH" are used by the slurm controller. Those lines are for specifying sbatch options without having to type them on the command-line every time. In this script, on the next set of lines, we've put some code for calculating the time elapsed for the job and then we simply wait for 5 minutes (300 seconds) and exit. Lets try running it
+The first line tells sbatch what scripting language (bash here) the rest of the file is in. Any line that begins with a "#" symbol is ignored by the bash interpreter, those lines that begin with "#SBATCH" are used by the slurm controller. Those lines are for specifying sbatch options without having to type them on the command-line every time. In this script, on the next set of lines, we've put some code for calculating the time elapsed for the job and then we simply wait for 5 minutes (300 seconds) and exit. Let's run it:
 
-
-    cd /share/workshop/prereq_workshop/$USER
-    wget https://raw.githubusercontent.com/ucdavis-bioinformatics-training/2020-Bioinformatics_Prerequisites_Workshop/master/scripts/template.slurm
+    wget https://raw.githubusercontent.com/ucdavis-bioinformatics-training/2022-May-Slurm-Seminar/master/scripts/template.slurm
     cat template.slurm
     sbatch template.slurm
 
 After finishing you will see two new files in the directory stdout.out and stderr.err where stdout and stderr (respectively) were redirected to.
 
 ---
-**2c\.** ['squeue'](https://slurm.schedmd.com/squeue.html) is to list your currently queued/running jobs. T
+
+['squeue'](https://slurm.schedmd.com/squeue.html) lists the currently queued/running jobs.
 
     squeue --help
 
@@ -141,7 +140,9 @@ Looking at the help documentation, we see that we can filter the results based o
 
 You can see the job has been running (ST=R) for 6 seconds (TIME=0:06) on node drove-12. The jobid (here 29390121) can be used to cancel the job later, or get additional job information.
 
-**2d\.** 'scancel' command is used to cancel jobs (either running or in queue).
+---
+
+'scancel' command is used to cancel jobs (either running or in queue).
 
 You can give it a job ID, or if you use the "-u" option with your username, you can cancel all of your jobs at once.
 
@@ -149,7 +150,9 @@ You can give it a job ID, or if you use the "-u" option with your username, you 
 
 will cancel the above job if its still running.
 
-**2e\.** 'sacct' command is used to get accounting data for any job that has ever run, using the job ID.
+---
+
+'sacct' command is used to get accounting data for any job that has ever run, using the job ID.
 
 To get statistics on completed jobs by jobID (replace jobid with your jobid):
 
@@ -162,93 +165,3 @@ To view the same information for all jobs of a user (replace username with your 
 
 **You can get more information about each command by typing "<command> --help" or by looking at [this summary page](https://slurm.schedmd.com/pdfs/summary.pdf).**
 
----
-## Environment modules
-
-**1\.** The 'module' command and its sub-commands. You will NOT find the 'module' command on all linux computers. Using modules is generally something that is used on a shared system (like clusters) and generally installed by the system's administrator. The module system allows to only 'load' software when needed as well as to make multiple versions of software available at the same time. It basically changes your PATH variable (and possibly other environment variables) so that the shell searches the correct directories for the software you want to use. First, take a look at all the software available on our system:
-
-    module avail
-
-<img src="figures/modules_figure1.png" alt="modules_figure1" width="800px"/>
-
-This is a list of all the software (with different versions) that you can access. The format of 'modules' is software/version here you can see htstream has 3 different versions installed with the latest being 1.0.0. When you load a module without specifying a version, it will load the default (generally the latest) version. If you need an older version, you need to use the cooresponding version number:
-
-Now try running the 'hts_Stats' app from htstream:
-
-    hts_Stats
-
-<div class="output">msettles@tadpole:/share/workshop/msettles$hts_Stats
--bash: hts_Stats: command not found
-</div>
-
-You should get an error saying that the command was not found. Take a look at your PATH variable.
-
-    echo $PATH
-
-<div class="output">msettles@tadpole:/share/workshop/msettles$ echo $PATH
-/software/slurm/17.11.2/lssc0-linux/sbin:/software/slurm/17.11.2/lssc0-linux/bin:/software/modules/1.923/lssc0-linux/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/opt/puppetlabs/bin
-</div>
-
-These are the directories (colon separated) that are searched for executable applications to run on the command-line. In order to access a piece of software that is not in one of these default directories, we need to use the 'module load' command, or set the PATH to locate it:
-
-    module load htstream/1.0.0
-    hts_Stats
-
-Use the 'which' command to find out where the 'hts_Stats' command is actually located:
-
-    which hts_Stats
-
-You'll see that hts_Stats is located in a completely different place and yet you are able to access it. This is because the module command changes your PATH variable so that it has the correct directory. Take a look at your PATH again:
-
-    echo $PATH
-
-You'll see that the directory for scythe has been added to PATH.
-
----
-**2\.** A few more module sub-commands that are useful:
-
-'module list' will list all of your currently loaded modules in this terminal/session.
-
-    module list
-
-<div class="output">msettles@tadpole:/share/workshop/msettles$ module list
-Currently Loaded Modulefiles:
- 1) slurm/latest   2) htstream/1.0.0
-</div>
-
-_'module unload'_ will unload the module(s) you specify.
-
-    module load star
-    module load samtools
-    module list
-    module unload star
-    module list
-
-<div class="output">msettles@tadpole:/share/workshop/msettles$ module load star
-Module star-2.7.0e-lssc0-linux loaded. STAR (Spliced Transcripts Alignment to a Reference) is an RNA-seq data aligner. NOTE: Indices must be indexed using this version or newer, they cannot be from a previous version.
-msettles@tadpole:/share/workshop/msettles$ module load samtools
-Module samtools-1.9-lssc0-linux loaded. Samtools is a suite of programs for interacting with high-throughput sequencing data.
-msettles@tadpole:/share/workshop/msettles$ module list
-Currently Loaded Modulefiles:
- 1) slurm/latest   2) htstream/1.0.0   3) star/2.7.0e   4) samtools/1.9
-msettles@tadpole:/share/workshop/msettles$ module unload star
-msettles@tadpole:/share/workshop/msettles$ module list
-Currently Loaded Modulefiles:
- 1) slurm/latest   2) htstream/1.0.0   3) samtools/1.9
-</div>
-
-'module purge' will unload all of your modules. Which simply means that it will take out the directories for all of the modules from your PATH variable. Take a look at $PATH now:
-
-    echo $PATH
-    module purge
-    module list
-    echo $PATH
-
-<div class="output">msettles@tadpole:/share/workshop/msettles$     echo $PATH
-/software/samtools/1.9/lssc0-linux/bin:/software/htstream/1.0.0/lssc0-linux/bin:/share/biocore/software/bin:/software/modules/1.923/lssc0-linux/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/opt/puppetlabs/bin
-msettles@tadpole:/share/workshop/msettles$     module purge
-msettles@tadpole:/share/workshop/msettles$     module list
-No Modulefiles Currently Loaded.
-msettles@tadpole:/share/workshop/msettles$     echo $PATH
-/share/biocore/software/bin:/software/modules/1.923/lssc0-linux/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/opt/puppetlabs/bin
-</div>
