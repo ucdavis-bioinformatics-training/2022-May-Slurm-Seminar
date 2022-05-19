@@ -165,3 +165,81 @@ To view the same information for all jobs of a user (replace username with your 
 
 **You can get more information about each command by typing "<command> --help" or by looking at [this summary page](https://slurm.schedmd.com/pdfs/summary.pdf).**
 
+
+
+## Array Jobs
+
+If you need to submit many jobs to the cluster at once, the best way to do that is to use **Job Arrays**. Here is an example of a real world job script using a Job Array:
+
+<pre class="prettyprint"><code class="language-sh" style="background-color:333333">#!/bin/bash
+
+#SBATCH --array=1-22  # NEED TO CHANGE THIS!
+#SBATCH --job-name=htstream # Job name
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=8
+#SBATCH --time=2-0
+#SBATCH --mem=20000 # Memory pool for all cores (see also --mem-per-cpu)
+#SBATCH --partition=production
+
+
+start=`date +%s`
+hostname
+outdir="01-Cleaned"
+
+sampfile="newids.sample_data.txt"
+SAMPLE=`head -n ${SLURM_ARRAY_TASK_ID} $sampfile | tail -1 | cut -f1`
+R1=`head -n ${SLURM_ARRAY_TASK_ID} $sampfile | tail -1 | cut -f2`
+R2=`head -n ${SLURM_ARRAY_TASK_ID} $sampfile | tail -1 | cut -f3`
+
+echo $SAMPLE
+
+if [ ! -e $outdir ]; then
+    mkdir $outdir
+fi
+
+if [ ! -e "$outdir/$SAMPLE" ]; then
+    mkdir $outdir/$SAMPLE
+fi
+
+module load htstream/1.3.3
+call="hts_Stats -F -L $outdir/$SAMPLE/$SAMPLE.stats.log -1 $R1 -2 $R2 | \
+      hts_SeqScreener -F -A $outdir/$SAMPLE/$SAMPLE.stats.log | \
+      hts_AdapterTrimmer -F -A $outdir/$SAMPLE/$SAMPLE.stats.log | \
+      hts_Overlapper -F -A $outdir/$SAMPLE/$SAMPLE.stats.log | \
+      hts_QWindowTrim -F -A $outdir/$SAMPLE/$SAMPLE.stats.log | \
+      hts_LengthFilter -F -m 50 -A $outdir/$SAMPLE/$SAMPLE.stats.log | \
+      hts_Stats -F -f $outdir/$SAMPLE/$SAMPLE.cleaned -A $outdir/$SAMPLE/$SAMPLE.stats.log"
+
+echo $call
+eval $call
+
+end=`date +%s`
+runtime=$((end-start))
+echo Runtime: $runtime seconds
+
+</code></pre>
+
+
+The key to using job arrays is the "\-\-array" option and the SLURM_ARRAY_TASK_ID environment variable. The "\-\-array" option is your slurm script defines the range for the SLURM_ARRAY_TASK_ID variable. The slurm controller will go through the range and create a new job (using the same slurm script) for every number in that range. Each number will be assigned to SLURM_ARRAY_TASK_ID for each job. E.g., if the range is "1-22" then there will be 22 jobs run, each one getting a unique value for SLURM_ARRAY_TASK_ID. The common thing to do is to use the SLURM_ARRAY_TASK_ID value to index into a sample metadata file. E.g., you could have a text file with 22 lines, each line corresponding to a different sample. 
+
+Then you can run the script using sbatch. Once you run it, all the jobs will get created and be put into the queue. The entire job array gets a job ID, and each individual job's SLURM_ARRAY_TASK_ID value is appended to the job array ID to produce the individual job IDs.
+
+
+<div class="output">joshi@springfield:~$ squeue -u joshi
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+      49102105_158 productio haplotyp    joshi  R 2-01:07:44      1 fleet-41
+        49214699_2 productio htstream    joshi  R    1:03:26      1 fleet-20
+</div>
+
+
+You can use the same commands for an array job that you use for a single job. You can cancel all of the array jobs by specifying the job array ID in scancel, or you can cancel individual jobs using the individual job IDs (i.e. with the appended SLURM_ARRAY_TASK_ID value).
+
+
+### Use this one simple trick
+
+One way to check if you properly wrote the script without having to run all of your jobs is to assign SLURM_ARRAY_TASK_ID a value of 1 explicitly and then run the script on the command line directly:
+
+    export SLURM_ARRAY_TASK_ID=1
+    bash hts_pe_array.slurm
+
+This will run only the first sample from your sample file in the terminal. This will help you determine if there is anything wrong with the script without needing to run everything. Once you are satisfied that the script is good, then you can kill it and run the whole job array.
