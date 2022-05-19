@@ -6,17 +6,13 @@ navigation:
   - title: Home
     url: /
 
-  - heading: Introduction
-  - title: Intro to the Workshop and Core
-    url: base/welcome
-
   - heading: Slurm
   - title: Intro
     url: cluster_training/intro
   - title: Cluster
     url: cluster_training/cluster
-  - title: LSSC0
-    url: cluster_training/lssc0_onboard
+  - title: Onboard
+    url: cluster_training/hpc_core_onboard.md
   - title: Modules
     url: cluster_training/modules
   # - title: Priority
