@@ -28,14 +28,14 @@
 
 ## Who are we?
 
+* Nikhil Joshi
+* Bioinformatics Programmer/Analyst, UC Davis Bioinformatics Core
+* 30+ years programming experience, 15+ years at the Bioinformatics Core, software installer for Genome Center cluster.
+
 * Mike Lewis
 * Systems Achitect, HPC Core Facility (previously of the Genome Center)
 * 25 years of experience managing UNIX at scale, 20 years of HPC cluster
   design and administration.
-
-* Nikhil Joshi
-* Bioinformatics Programmer/Analyst, UC Davis Bioinformatics Core
-* 30+ years programming experience, 15+ years at the Bioinformatics Core, software installer for Genome Center cluster.
 
 # Introduction
 
