@@ -242,4 +242,4 @@ One way to check if you properly wrote the script, without having to run all of 
     export SLURM_ARRAY_TASK_ID=1
     bash hts_pe_array.slurm
 
-This will run only the first sample from your sample file in the terminal. This will help you determine if there is anything wrong with the script without needing to run everything. Once you are satisfied that the script is good, then you can kill it and run the whole job array.
+This will run only the first sample from your sample file in the terminal. It help you determine if there is anything wrong with the script without needing to run everything. Once you are satisfied that the script is good, then you can kill that job and run the whole job array.
